@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Sharing Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .video-container {
+            width: 70%;
+            margin: 0 auto;
+            background: #fff;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        video {
+            width: 100%;
+            height: auto;
+        }
+        .actions {
+            margin-top: 10px;
+        }
+        .like, .share, .download, .comment {
+            padding: 10px;
+            margin-right: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .download {
+            background-color: #28a745;
+        }
+        .comment-box {
+            margin-top: 20px;
+        }
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="video-container">
+        <h2>Video Title</h2>
+        <video controls>
+            <source src="Hair Transplant.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+
+        <div class="actions">
+            <button class="like" onclick="likeVideo()">Like</button>
+            <button class="share" onclick="shareVideo()">Share</button>
+            <button class="download" onclick="requestDownload()">Request Download</button>
+        </div>
+
+        <div class="comment-box">
+            <h3>Comments</h3>
+            <textarea id="comment" rows="4" placeholder="Add your comment..."></textarea>
+            <button class="comment" onclick="postComment()">Post Comment</button>
+            <div id="comment-section"></div>
+        </div>
+    </div>
+
+    <script>
+        let likeCount = 0;
+        
+        function likeVideo() {
+            likeCount++;
+            alert("You liked this video! Likes: " + likeCount);
+        }
+
+        function shareVideo() {
+            const videoUrl = window.location.href;
+            navigator.clipboard.writeText(videoUrl).then(() => {
+                alert("Video link copied to clipboard: " + videoUrl);
+            }).catch(err => {
+                alert('Failed to copy link: ', err);
+            });
+        }
+
+        function requestDownload() {
+            const email = prompt("Please enter your email to request download permission:");
+            if (email) {
+                alert("Your request has been sent! We will contact you at " + email);
+                // Here you can add an API call to send the email request to the admin
+            }
+        }
+
+        function postComment() {
+            const comment = document.getElementById("comment").value;
+            if (comment.trim()) {
+                const commentSection = document.getElementById("comment-section");
+                const newComment = document.createElement("p");
+                newComment.textContent = comment;
+                commentSection.appendChild(newComment);
+                document.getElementById("comment").value = "";
+            } else {
+                alert("Please enter a comment.");
+            }
+        }
+    </script>
+
+</body>
+</html>
